@@ -7,4 +7,5 @@ public class EmptyMazeGenerator extends AMazeGenerator
         Maze emptyMaze = new Maze(row, col);
         return emptyMaze; // the default maze has only 0's.
     }
+
 }
