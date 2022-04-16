@@ -1,18 +1,13 @@
 package algorithms.mazeGenerators;
 import kotlin.Pair;
-import java.util.Set;
+
+import java.util.List;
 import java.util.Random;
 
 public class MyMazeGenerator extends AMazeGenerator
 {
-    private Set <Pair> wallSet;
-    private Set <Pair> Visited;
-//
-//    public MyMazeGenerator(Set<Pair> wallSet, Set<Pair> visited)
-//    {
-//        this.wallSet = wallSet;
-//        Visited = visited;
-//    }
+    private List<Pair> wallSet;
+    private List<Pair> Visited;
 
     public Maze generate(int row, int col)
     {
@@ -24,6 +19,8 @@ public class MyMazeGenerator extends AMazeGenerator
         // get the random starting position on the maze.
         int beginRow = ran1.nextInt(row);
         int beginCol = ran2.nextInt(col);
+        Pair startPoint = new Pair(beginRow, beginCol);
+        Visited.add(startPoint);
 
         // adds the neighbor below if it is in bound.
         if (CheckBounds(onlyWalls, beginRow+1, beginCol))
@@ -55,7 +52,10 @@ public class MyMazeGenerator extends AMazeGenerator
 
         while (!wallSet.isEmpty())
         {
-            
+            Random ran = new Random();
+            int index = ran.nextInt(wallSet.size());
+            Pair p = wallSet.get(index);
+            //// TODO need to continue the algorithm
         }
 
         
