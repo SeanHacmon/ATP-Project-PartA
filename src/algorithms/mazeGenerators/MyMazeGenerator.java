@@ -24,7 +24,7 @@ public class MyMazeGenerator extends AMazeGenerator
         AddNewWalls(onlyWalls, beginRow, beginCol, wallSet);
 
         // the Prim algorithm
-        while (!wallSet.isEmpty() || onlyWalls.maze[onlyWalls.size_row -1][onlyWalls.size_col - 1] == 1)
+        while (!wallSet.isEmpty() || onlyWalls.maze[onlyWalls.row -1][onlyWalls.col - 1] == 1)
         {
             Random ran = new Random();
             int index = ran.nextInt(wallSet.size());
@@ -64,7 +64,7 @@ public class MyMazeGenerator extends AMazeGenerator
         return onlyWalls;
     }
 
-    // Receive a pair and a maze and turns the specific cell from 0 to 1.
+    // Receive a pair and a maze and turns the specific cell from 1 to 0.
     public static void WallTooPassage(Pair p, Maze m)
     {
         for (int i = 0; i < m.maze.length; i++)
@@ -73,7 +73,7 @@ public class MyMazeGenerator extends AMazeGenerator
             {
                 if (p.getFirst().equals(i) && p.getSecond().equals(j))
                 {
-                    m.maze[i][j] = 1;
+                    m.maze[i][j] = 0;
                     return;
                 }
             }
