@@ -2,19 +2,28 @@ package algorithms.mazeGenerators;
 
 import kotlin.Pair;
 
+import java.util.Objects;
+
 public class Position
 {
-    Position startPosition;
-    Position goalPosition;
     int RowIndex;
     int ColumnIndex;
 
-    public Position(Position startPosition, Position goalPosition, int rowIndex, int columnIndex)
+    public Position(int rowIndex, int columnIndex)
     {
-        this.startPosition = startPosition;
-        this.goalPosition = goalPosition;
-        RowIndex = rowIndex;
-        ColumnIndex = columnIndex;
+        this.RowIndex = rowIndex;
+        this.ColumnIndex = columnIndex;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Position)) return false;
+        Position position = (Position) o;
+        return RowIndex == position.RowIndex && ColumnIndex == position.ColumnIndex;
+    }
+
+    public int hashCode() {
+        return Objects.hash(RowIndex, ColumnIndex);
     }
 
     public int getRowIndex() {return RowIndex;}

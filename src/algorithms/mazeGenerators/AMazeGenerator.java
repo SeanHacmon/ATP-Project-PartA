@@ -8,4 +8,5 @@ public abstract class AMazeGenerator implements IMazeGenerator
         long time = System.currentTimeMillis();
         return time;
     }
+    
 }

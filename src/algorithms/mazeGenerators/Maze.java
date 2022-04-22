@@ -6,7 +6,8 @@ public class Maze
 {
     // constructor creates an empty maze[][] & initialize 0's
     int[][] maze;
-    Position p;
+    Position startPosition;
+    Position goalPosition;
     int row;
     int col;
     public Maze(int row, int col)
@@ -26,8 +27,8 @@ public class Maze
     {
         ///TODO
     }
-    public Position getStartPosition() {return p.startPosition;}
-    public Position getGoalPosition() {return p.goalPosition;}
+    public Position getStartPosition() {return this.startPosition;}
+    public Position getGoalPosition() {return this.goalPosition;}
 
 
 }
