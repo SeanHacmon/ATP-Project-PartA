@@ -9,6 +9,12 @@ public class Position
     int RowIndex;
     int ColumnIndex;
 
+    public Position()
+    {
+        this.RowIndex = 0;
+        this.ColumnIndex = 0;
+    }
+
     public Position(int rowIndex, int columnIndex)
     {
         this.RowIndex = rowIndex;
@@ -31,4 +37,7 @@ public class Position
     public int getColumnIndex() {return ColumnIndex;}
     public void setColumnIndex(int columnIndex) {ColumnIndex = columnIndex;}
 
+    public String toString() {
+        return "{"+ this.getRowIndex()+","+this.ColumnIndex+"}";
+    }
 }

@@ -13,16 +13,16 @@ public class MyMazeGenerator extends AMazeGenerator
     {
         // creating our maze full of walls.
         Maze onlyWalls = FullOfWalls(row, col);
-        onlyWalls.goalPosition.RowIndex = row;
-        onlyWalls.goalPosition.ColumnIndex = col;
+        onlyWalls.goalPosition.setRowIndex(row);
+        onlyWalls.goalPosition.setColumnIndex(col);
         Random ran1 = new Random();
         Random ran2 = new Random();
 
         // get the random starting position on the maze.
         int beginRow = ran1.nextInt(row);
         int beginCol = ran2.nextInt(col);
-        onlyWalls.startPosition.RowIndex = beginRow;
-        onlyWalls.startPosition.ColumnIndex = beginCol;
+        onlyWalls.startPosition.setRowIndex(beginRow);
+        onlyWalls.startPosition.setColumnIndex(beginCol);
         Visited.add(onlyWalls.startPosition);
         AddNewWalls(onlyWalls, beginRow, beginCol, wallSet);
 
