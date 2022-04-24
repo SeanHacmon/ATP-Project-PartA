@@ -16,14 +16,14 @@ public class Maze
         this.maze =new int[row][col];
         this.startPosition = new Position();
         this.goalPosition = new Position();
-        this.startPosition.RowIndex = 0;
-        this.startPosition.ColumnIndex = 0;
-        this.goalPosition.RowIndex = this.maze.length-1;
-        this.goalPosition.RowIndex = this.maze[0].length-1;
-//        this.startPosition.setRowIndex(0);
-//        this.startPosition.setColumnIndex(0);
-//        this.goalPosition.setRowIndex(this.maze.length-1);
-//        this.goalPosition.setColumnIndex(this.maze[0].length - 1);
+//        this.startPosition.RowIndex = 0;
+//        this.startPosition.ColumnIndex = 0;
+//        this.goalPosition.RowIndex = this.maze.length-1;
+//        this.goalPosition.ColumnIndex = this.maze[0].length-1;
+        this.startPosition.setRowIndex(0);
+        this.startPosition.setColumnIndex(0);
+        this.goalPosition.setRowIndex(this.maze.length-1);
+        this.goalPosition.setColumnIndex(this.maze[0].length - 1);
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
@@ -45,14 +45,21 @@ public class Maze
             for (int col = 0; col < this.maze[0].length; col++)
             {
                 if (row == startPosition.getRowIndex() && col == startPosition.getColumnIndex())
+                {
                     System.out.printf("%s","S ");
+                    continue;
+                }
                 if (row == goalPosition.getRowIndex()  && col == goalPosition.getColumnIndex())
-                    System.out.printf("%s","E }");
+                {
+                    System.out.printf("%s","E ");
+                    continue;
+                }
+
                 System.out.printf("%s",this.maze[row][col]+ " ");
             }
-            System.out.printf("%s", "\n");
+            System.out.printf("%s", "}\n");
         }
-        System.out.printf("%s"," }");
+//        System.out.printf("%s"," }");
     }
 
 

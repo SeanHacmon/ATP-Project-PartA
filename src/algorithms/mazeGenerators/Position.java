@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class Position
 {
-    int RowIndex;
-    int ColumnIndex;
+    private int RowIndex;
+    private int ColumnIndex;
 
     public Position()
     {

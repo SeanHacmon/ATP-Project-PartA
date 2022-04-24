@@ -10,7 +10,7 @@ public class SimpleMazeGenerator extends AMazeGenerator
         {
             for (int j = 0; j < col; j++)
             {
-                simpleMaze.maze[i][j] = random.nextInt(1);
+                simpleMaze.maze[i][j] = random.nextInt(2);
             }
 
         }
