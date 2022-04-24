@@ -3,6 +3,7 @@ import kotlin.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 public class MyMazeGenerator extends AMazeGenerator
@@ -44,8 +45,8 @@ public class MyMazeGenerator extends AMazeGenerator
             Visited.add(p);
             if (!VerifyNeighbors(onlyWalls, p))
                 WallTooPassage(p, onlyWalls);
-            wallSet.remove(p);
             AddNewWalls(onlyWalls, p.getRowIndex(), p.getColumnIndex(), wallSet);
+            wallSet.remove(p);
         }
 
         return onlyWalls;
