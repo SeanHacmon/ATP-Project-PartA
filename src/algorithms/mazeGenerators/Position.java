@@ -6,8 +6,14 @@ import java.util.Objects;
 
 public class Position
 {
-    int RowIndex;
-    int ColumnIndex;
+    private int RowIndex;
+    private int ColumnIndex;
+
+    public Position()
+    {
+        this.RowIndex = 0;
+        this.ColumnIndex = 0;
+    }
 
     public Position(int rowIndex, int columnIndex)
     {
@@ -31,4 +37,7 @@ public class Position
     public int getColumnIndex() {return ColumnIndex;}
     public void setColumnIndex(int columnIndex) {ColumnIndex = columnIndex;}
 
+    public String toString() {
+        return "{"+ this.getRowIndex()+","+this.ColumnIndex+"}";
+    }
 }
