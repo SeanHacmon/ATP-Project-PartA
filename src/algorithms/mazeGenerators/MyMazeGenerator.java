@@ -10,11 +10,13 @@ public class MyMazeGenerator extends AMazeGenerator
 {
     private List<Position> wallSet;
     private List<Position> Visited;
+    private boolean flag;
 
     public MyMazeGenerator()
     {
         this.wallSet = new ArrayList<>() {};
         this.Visited = new ArrayList<>() {};
+        this.flag = false;
     }
 
     public Maze generate(int row, int col)
@@ -39,22 +41,35 @@ public class MyMazeGenerator extends AMazeGenerator
         // the Prim algorithm
         while (!wallSet.isEmpty() && onlyWalls.maze[onlyWalls.goalPosition.getRowIndex()][onlyWalls.goalPosition.getColumnIndex()] == 1)
         {
+            if (flag)
+            {
+                for (int i = 0; i <this.Visited.size(); i++)
+                {
+                    Position p = Visited.get(i);
+                    int x = p.getRowIndex();
+                    int y = p.getColumnIndex();
+                    onlyWalls.maze[x][y] = 0;
+                }
+                return onlyWalls;
+            }
             Random ran = new Random();
             int index = ran.nextInt(wallSet.size());
             Position p = wallSet.get(index);
-            Visited.add(p);
-            if (!VerifyNeighbors(onlyWalls, p))
+            if (VerifyNeighbors(onlyWalls, p))
+            {
+                Visited.add(p);
                 WallTooPassage(p, onlyWalls);
-            AddNewWalls(onlyWalls, p.getRowIndex(), p.getColumnIndex(), wallSet);
+                AddNewWalls(onlyWalls, p.getRowIndex(), p.getColumnIndex(), wallSet);
+            }
             wallSet.remove(p);
         }
-
+        flag = true;
         return onlyWalls;
     }
     // Checking we are not out of bounds of the maze.
     public static boolean CheckBounds(Maze m, int cellR, int cellC)
     {
-        return (0 <= cellC && cellC < m.maze.length && 0 <= cellR && cellR < m.maze[0].length);
+        return (0 <= cellC && cellC <= m.goalPosition.getRowIndex() && 0 <= cellR && cellR <= m.goalPosition.getColumnIndex());
     }
 
 
@@ -123,15 +138,43 @@ public class MyMazeGenerator extends AMazeGenerator
     // Checks if a all the neighbors of a specific position are all have been visited.
     public boolean VerifyNeighbors(Maze m, Position p)
     {
+        int x1=0, x2=0, x3=0, x4=0;
         Position p1 = new Position(p.getRowIndex()+1,p.getColumnIndex());
         Position p2 = new Position(p.getRowIndex(),p.getColumnIndex()+1);
         Position p3 = new Position(p.getRowIndex()-1,p.getColumnIndex());
         Position p4 = new Position(p.getRowIndex(),p.getColumnIndex()-1);
-        return ((Visited.contains(p1) || !(CheckBounds(m, p.getRowIndex()+1, p.getColumnIndex())))&&
-                (Visited.contains(p2) || !(CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+1)))&&
-                (Visited.contains(p3) || !(CheckBounds(m, p.getRowIndex()-1, p.getColumnIndex())))&&
-                (Visited.contains(p4) || !(CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-1))));
+
+        if (!(Visited.contains(p1)) && !(Visited.contains(p2)) && !(Visited.contains(p3))
+                && CheckBounds(m, p.getRowIndex(), p.getColumnIndex()))
+//                (CheckBounds(m, p.getRowIndex()+1, p.getColumnIndex())) &&
+//                (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+1)) &&
+//                (CheckBounds(m, p.getRowIndex()-1, p.getColumnIndex())))
+            return true;
+                if (!(Visited.contains(p1)) && !(Visited.contains(p2)) && !(Visited.contains(p4))
+                        && CheckBounds(m, p.getRowIndex(), p.getColumnIndex()))
+//                        (CheckBounds(m, p.getRowIndex()+1, p.getColumnIndex())) &&
+//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+1)) &&
+//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-1)))
+                    return true;
+                if (!(Visited.contains(p1)) && !(Visited.contains(p3)) && !(Visited.contains(p4))
+                    && CheckBounds(m, p.getRowIndex(), p.getColumnIndex()))
+//                        (CheckBounds(m, p.getRowIndex()+1, p.getColumnIndex())) &&
+//                        (CheckBounds(m, p.getRowIndex()-1, p.getColumnIndex())) &&
+//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-1)))
+                    return true;
+
+                if (!(Visited.contains(p2)) && !(Visited.contains(p3)) && !(Visited.contains(p4))
+                    && CheckBounds(m, p.getRowIndex(), p.getColumnIndex()))
+//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+1)) &&
+//                        (CheckBounds(m, p.getRowIndex()-1, p.getColumnIndex())) &&
+//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-1)))
+                    return true;
+                return false;
     }
 }
 
 
+//                !(CheckBounds(m, p.getRowIndex()+1, p.getColumnIndex())))&&
+//                (Visited.contains(p2) || !(CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+1)))&&
+//                (Visited.contains(p3) || !(CheckBounds(m, p.getRowIndex()-1, p.getColumnIndex())))&&
+//                (Visited.contains(p4) || !(CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-1))));

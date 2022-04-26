@@ -20,8 +20,33 @@ public class SimpleMazeGenerator extends AMazeGenerator
             }
         }
         if (getRoute(simpleMaze,row, col)<= 0)
-            generate(row, col);
+            setRoute(simpleMaze);
         return simpleMaze;
+    }
+
+    public static void setRoute(Maze m)
+    {
+        int i = m.startPosition.getRowIndex();
+        int j = m.startPosition.getColumnIndex();
+        while (i != m.goalPosition.getRowIndex() && j != m.goalPosition.getColumnIndex())
+        {
+            Random ran = new Random();
+            int index = ran.nextInt(2);
+            if (index == 1 && legitMove(m, i+1, j))
+            {
+                m.maze[i + 1][j] = 0;
+                i++;
+            }
+            else
+            {
+                if (legitMove(m, i, j+1))
+                {
+                    m.maze[i][j + 1] = 0;
+                    j++;
+                }
+            }
+        }
+
     }
 
 
@@ -59,22 +84,9 @@ public class SimpleMazeGenerator extends AMazeGenerator
 
 
     }
-//    public static void getRoutes(Maze m,int i, int j)
-//    {
-//        if (i == m.row && j == m.col && legitMove(m,m.row,m.col))
-//            paths++;
-//        if (legitMove(m,i+1,j))
-//            getRoutes(m,i+1,j);
-//        if (legitMove(m,i-1,j))
-//            getRoutes(m,i-1,j);
-//        if (legitMove(m,i,j+1))
-//            getRoutes(m,i,j+1);
-//        if (legitMove(m,i,j-1))
-//            getRoutes(m,i,j-1);
-    //}
 
     public static boolean legitMove(Maze m, int i, int j)
     {
-        return (0 <= i && i <= m.row) && (0 <= j && j <= m.col) && (m.maze[i][j] == 0);
+        return (0 <= i && i <= m.goalPosition.getRowIndex()) && (0 <= j && j <= m.goalPosition.getColumnIndex());
     }
 }

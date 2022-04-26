@@ -16,10 +16,6 @@ public class Maze
         this.maze =new int[row][col];
         this.startPosition = new Position();
         this.goalPosition = new Position();
-//        this.startPosition.RowIndex = 0;
-//        this.startPosition.ColumnIndex = 0;
-//        this.goalPosition.RowIndex = this.maze.length-1;
-//        this.goalPosition.ColumnIndex = this.maze[0].length-1;
         this.startPosition.setRowIndex(0);
         this.startPosition.setColumnIndex(0);
         this.goalPosition.setRowIndex(this.maze.length-1);
@@ -59,7 +55,6 @@ public class Maze
             }
             System.out.printf("%s", "}\n");
         }
-//        System.out.printf("%s"," }");
     }
 
 

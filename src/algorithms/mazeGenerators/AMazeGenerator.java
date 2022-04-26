@@ -4,8 +4,9 @@ public abstract class AMazeGenerator implements IMazeGenerator
 {
     public long measureAlgorithmTimeMillis(int row, int col)
     {
-//        this.generate(row, col);
-        return System.currentTimeMillis();
+        long first = System.currentTimeMillis();
+        this.generate(row, col);
+        long second = System.currentTimeMillis();
+        return second - first;
     }
-    
 }
