@@ -3,67 +3,61 @@ import kotlin.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 public class MyMazeGenerator extends AMazeGenerator
 {
+    private Maze onlyWalls;
     private List<Position> wallSet;
-    private List<Position> Visited;
-    private boolean flag;
+    private Position[][] PositionArray;
 
     public MyMazeGenerator()
     {
         this.wallSet = new ArrayList<>() {};
-        this.Visited = new ArrayList<>() {};
-        this.flag = false;
+        this.onlyWalls = null;
+        this.PositionArray = null;
     }
 
     public Maze generate(int row, int col)
     {
-        // creating our maze full of walls.
-        Maze onlyWalls = FullOfWalls(row, col);
-        onlyWalls.goalPosition.setRowIndex(row-1);
-        onlyWalls.goalPosition.setColumnIndex(col-1);
-        Random ran1 = new Random();
-        Random ran2 = new Random();
+        // Creating array of positions.
+        this.PositionArray = new Position[row][col];
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < col; j++)
+            {
+                PositionArray[i][j] = new Position(i,j);
+            }
+        }
 
-        // get the random starting position on the maze.
-        int beginRow = ran1.nextInt(row);
-        int beginCol = ran2.nextInt(col);
-        onlyWalls.startPosition.setRowIndex(beginRow);
-        onlyWalls.startPosition.setColumnIndex(beginCol);
-        Position p1 = new Position(beginRow, beginCol);
-        Visited.add(p1);
-        WallTooPassage(p1, onlyWalls);
-        AddNewWalls(onlyWalls, beginRow, beginCol, wallSet);
+        // creating our maze full of walls.
+        onlyWalls = FullOfWalls(row, col);
+        Position pos = onlyWalls.startPosition;
+        this.PositionArray[0][0].setVisited(true);
+        WallTooPassage(pos, onlyWalls);
+        AddNewWalls(0, 0);
 
         // the Prim algorithm
-        while (!wallSet.isEmpty() && onlyWalls.maze[onlyWalls.goalPosition.getRowIndex()][onlyWalls.goalPosition.getColumnIndex()] == 1)
+        while (!wallSet.isEmpty())
         {
-            if (flag)
-            {
-                for (int i = 0; i <this.Visited.size(); i++)
-                {
-                    Position p = Visited.get(i);
-                    int x = p.getRowIndex();
-                    int y = p.getColumnIndex();
-                    onlyWalls.maze[x][y] = 0;
-                }
-                return onlyWalls;
-            }
             Random ran = new Random();
             int index = ran.nextInt(wallSet.size());
             Position p = wallSet.get(index);
-            if (VerifyNeighbors(onlyWalls, p))
+            if (!p.isVisited() && CheckAllNeighbors(onlyWalls, p))
             {
-                Visited.add(p);
                 WallTooPassage(p, onlyWalls);
-                AddNewWalls(onlyWalls, p.getRowIndex(), p.getColumnIndex(), wallSet);
+                BreakBetween(onlyWalls, p);
+                AddNewWalls(p.getRowIndex(), p.getColumnIndex());
             }
             wallSet.remove(p);
         }
-        flag = true;
+        Random r = new Random();
+        int randomPick = r.nextInt(2);
+        if (randomPick==1)
+            WallTooPassage(this.PositionArray[row-1][col-2], onlyWalls);
+        else
+            WallTooPassage(this.PositionArray[row-2][col-1], onlyWalls);
+        WallTooPassage(this.PositionArray[row-1][col-1], onlyWalls);
         return onlyWalls;
     }
     // Checking we are not out of bounds of the maze.
@@ -71,7 +65,6 @@ public class MyMazeGenerator extends AMazeGenerator
     {
         return (0 <= cellC && cellC <= m.goalPosition.getRowIndex() && 0 <= cellR && cellR <= m.goalPosition.getColumnIndex());
     }
-
 
     // Creates a Maze of 100% walls.
     public static Maze FullOfWalls(int row, int col)
@@ -88,93 +81,145 @@ public class MyMazeGenerator extends AMazeGenerator
     }
 
     // Receive a pair and a maze and turns the specific cell from 1 to 0.
-    public static void WallTooPassage(Position p, Maze m)
+    public void WallTooPassage(Position p, Maze m)
     {
         int r = p.getRowIndex();
         int c = p.getColumnIndex();
+        PositionArray[r][c].setVisited(true);
         m.maze[r][c] = 0;
     }
 
     // Adding new walls to the WallSet by a specific cell getting his neighbors.
-    public void AddNewWalls(Maze onlyWalls, int beginRow, int beginCol, List<Position> wallSet)
+    public void AddNewWalls(int beginRow, int beginCol)
     {
         // adds the neighbor below if it is in bound.
-        if (CheckBounds(onlyWalls, beginRow+1, beginCol))
+        if (CheckBounds(onlyWalls, beginRow+2, beginCol))
         {
-            Position p = new Position(beginRow + 1, beginCol);
-            if (!this.Visited.contains(p))
-                wallSet.add(p);
+            Position p2 = this.PositionArray[beginRow + 2][beginCol];
+            if (!p2.isVisited())
+            {
+                wallSet.add(p2);
+            }
         }
 
         // adds the neighbor above if it is in bound.
-        if (CheckBounds(onlyWalls, beginRow, beginCol+1))
+        if (CheckBounds(onlyWalls, beginRow, beginCol+2))
         {
-            Position p = new Position(beginRow, beginCol+1);
-            if (!this.Visited.contains(p))
-                wallSet.add(p);
+            Position p2 = this.PositionArray[beginRow][beginCol + 2];
+            if (!p2.isVisited())
+            {
+                wallSet.add(p2);
+            }
         }
 
         // adds the neighbor from the left if it is in bound.
-        if (CheckBounds(onlyWalls, beginRow-1, beginCol))
+        if (CheckBounds(onlyWalls, beginRow-2, beginCol))
         {
-            Position p = new Position(beginRow-1, beginCol);
-            if (!this.Visited.contains(p))
-                wallSet.add(p);
+            Position p2 = this.PositionArray[beginRow-2][beginCol];
+            if (!p2.isVisited())
+            {
+                wallSet.add(p2);
+            }
         }
 
         // adds the neighbor from the right if it is in bound.
-        if (CheckBounds(onlyWalls, beginRow, beginCol-1))
+        if (CheckBounds(onlyWalls, beginRow, beginCol-2))
         {
-            Position p = new Position(beginRow, beginCol-1);
-            if (!this.Visited.contains(p))
-                wallSet.add(p);
+            Position p2 = this.PositionArray[beginRow][beginCol-2];
+            if (!p2.isVisited())
+            {
+                wallSet.add(p2);
+            }
         }
     }
 
     // Setters.
-    public void setVisited(List<Position> visited) {Visited = visited;}
     public void setWallSet(List<Position> wallSet) {this.wallSet = wallSet;}
 
-    // Checks if a all the neighbors of a specific position are all have been visited.
-    public boolean VerifyNeighbors(Maze m, Position p)
+    public void BreakBetween(Maze m, Position p)
     {
-        int x1=0, x2=0, x3=0, x4=0;
-        Position p1 = new Position(p.getRowIndex()+1,p.getColumnIndex());
-        Position p2 = new Position(p.getRowIndex(),p.getColumnIndex()+1);
-        Position p3 = new Position(p.getRowIndex()-1,p.getColumnIndex());
-        Position p4 = new Position(p.getRowIndex(),p.getColumnIndex()-1);
+        Position p1, p2, p3, p4;
+        if (CheckBounds(m, p.getRowIndex()+2, p.getColumnIndex()))
+        {
+            p1 = this.PositionArray[p.getRowIndex() + 2][p.getColumnIndex()];
+            if (p1.isVisited())
+            {
+                Position pos = this.PositionArray[p.getRowIndex()+1][p.getColumnIndex()];
+                WallTooPassage(pos, onlyWalls);
+                AddNewWalls(pos.getRowIndex(),pos.getColumnIndex());
+                return;
+            }
 
-        if (!(Visited.contains(p1)) && !(Visited.contains(p2)) && !(Visited.contains(p3))
-                && CheckBounds(m, p.getRowIndex(), p.getColumnIndex()))
-//                (CheckBounds(m, p.getRowIndex()+1, p.getColumnIndex())) &&
-//                (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+1)) &&
-//                (CheckBounds(m, p.getRowIndex()-1, p.getColumnIndex())))
-            return true;
-                if (!(Visited.contains(p1)) && !(Visited.contains(p2)) && !(Visited.contains(p4))
-                        && CheckBounds(m, p.getRowIndex(), p.getColumnIndex()))
-//                        (CheckBounds(m, p.getRowIndex()+1, p.getColumnIndex())) &&
-//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+1)) &&
-//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-1)))
-                    return true;
-                if (!(Visited.contains(p1)) && !(Visited.contains(p3)) && !(Visited.contains(p4))
-                    && CheckBounds(m, p.getRowIndex(), p.getColumnIndex()))
-//                        (CheckBounds(m, p.getRowIndex()+1, p.getColumnIndex())) &&
-//                        (CheckBounds(m, p.getRowIndex()-1, p.getColumnIndex())) &&
-//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-1)))
-                    return true;
+        }
+        if (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+2))
+        {
+            p2 = this.PositionArray[p.getRowIndex()][p.getColumnIndex() + 2];
+            if (p2.isVisited())
+            {
+                Position pos = this.PositionArray[p.getRowIndex()][p.getColumnIndex()+1];
+                WallTooPassage(pos, onlyWalls);
+                AddNewWalls(pos.getRowIndex(),pos.getColumnIndex());
+                return;
+            }
+        }
 
-                if (!(Visited.contains(p2)) && !(Visited.contains(p3)) && !(Visited.contains(p4))
-                    && CheckBounds(m, p.getRowIndex(), p.getColumnIndex()))
-//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+1)) &&
-//                        (CheckBounds(m, p.getRowIndex()-1, p.getColumnIndex())) &&
-//                        (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-1)))
-                    return true;
-                return false;
+        if (CheckBounds(m, p.getRowIndex()-2, p.getColumnIndex()))
+        {
+            p3 = this.PositionArray[p.getRowIndex()-2][p.getColumnIndex()];
+            if (p3.isVisited())
+            {
+                Position pos = this.PositionArray[p.getRowIndex()-1][p.getColumnIndex()];
+                WallTooPassage(pos, onlyWalls);
+                AddNewWalls(pos.getRowIndex(),pos.getColumnIndex());
+                return;
+            }
+        }
+        if (CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-2))
+        {
+            p4 = this.PositionArray[p.getRowIndex()][p.getColumnIndex()-2];
+            if (p4.isVisited())
+            {
+                Position pos = this.PositionArray[p.getRowIndex()][p.getColumnIndex()-1];
+                WallTooPassage(pos, onlyWalls);
+                AddNewWalls(pos.getRowIndex(),pos.getColumnIndex());
+                return;
+            }
+        }
     }
+    public boolean CheckAllNeighbors(Maze m, Position p)
+    {
+        int r = p.getRowIndex();
+        int c = p.getColumnIndex();
+        if (CheckBounds(m, r+1, c))
+            if (PositionArray[r+1][c].isVisited())
+                return false;
+        if (CheckBounds(m, r+1, c+1))
+            if (PositionArray[r+1][c+1].isVisited())
+                return false;
+        if (CheckBounds(m, r, c+1))
+            if (PositionArray[r][c+1].isVisited())
+                return false;
+        if (CheckBounds(m, r-1, c))
+            if (PositionArray[r-1][c].isVisited())
+                return false;
+        if (CheckBounds(m, r-1, c-1))
+            if (PositionArray[r-1][c-1].isVisited())
+                return false;
+        if (CheckBounds(m, r, c-1))
+            if (PositionArray[r][c-1].isVisited())
+                return false;
+        if (CheckBounds(m, r-1, c+1))
+            if (PositionArray[r-1][c+1].isVisited())
+                return false;
+        if (CheckBounds(m, r+1, c-1))
+            if (PositionArray[r+1][c-1].isVisited())
+                return false;
+        return true;
+    }
+
+
+
 }
 
 
-//                !(CheckBounds(m, p.getRowIndex()+1, p.getColumnIndex())))&&
-//                (Visited.contains(p2) || !(CheckBounds(m, p.getRowIndex(), p.getColumnIndex()+1)))&&
-//                (Visited.contains(p3) || !(CheckBounds(m, p.getRowIndex()-1, p.getColumnIndex())))&&
-//                (Visited.contains(p4) || !(CheckBounds(m, p.getRowIndex(), p.getColumnIndex()-1))));
+

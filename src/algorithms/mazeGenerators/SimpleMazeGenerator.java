@@ -81,8 +81,6 @@ public class SimpleMazeGenerator extends AMazeGenerator
             return solGrid.maze[row-1][col-1];
         else
             return -1;
-
-
     }
 
     public static boolean legitMove(Maze m, int i, int j)
