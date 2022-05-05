@@ -8,11 +8,13 @@ public class Position
 {
     private int RowIndex;
     private int ColumnIndex;
+    protected boolean Visited;
 
     public Position()
     {
         this.RowIndex = 0;
         this.ColumnIndex = 0;
+        this.Visited = false;
     }
 
     public Position(int rowIndex, int columnIndex)
@@ -36,6 +38,8 @@ public class Position
     public void setRowIndex(int rowIndex) {RowIndex = rowIndex;}
     public int getColumnIndex() {return ColumnIndex;}
     public void setColumnIndex(int columnIndex) {ColumnIndex = columnIndex;}
+    public boolean isVisited() {return Visited;}
+    public void setVisited(boolean visited) {Visited = visited;}
 
     public String toString() {
         return "{"+ this.getRowIndex()+","+this.ColumnIndex+"}";
