@@ -1,4 +1,9 @@
 package algorithms.search;
 
-public class MazeState {
+import algorithms.mazeGenerators.Position;
+
+public class MazeState extends AState
+{
+    Position p;
+    public MazeState(String s) {super(s);}
 }

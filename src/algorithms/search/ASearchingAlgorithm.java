@@ -1,4 +1,22 @@
 package algorithms.search;
 
-public class ASearchingAlgorithm {
+import java.util.PriorityQueue;
+
+public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
+{
+    protected PriorityQueue<AState> openList;
+    private int visitedNodes;
+
+    public ASearchingAlgorithm()
+    {
+        openList = new PriorityQueue<>();
+        visitedNodes = 0;
+    }
+
+    protected AState popOpenList()
+    {
+        visitedNodes++;
+        return openList.poll();
+    }
+
 }
