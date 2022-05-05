@@ -3,10 +3,11 @@ import java.util.Random;
 public class SimpleMazeGenerator extends AMazeGenerator
 {
     static int paths;
+    Maze simpleMaze;
     public Maze generate(int row, int col)
     {
         Random random = new Random();
-        Maze simpleMaze = new Maze(row, col);
+        simpleMaze = new Maze(row, col);
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
@@ -28,7 +29,7 @@ public class SimpleMazeGenerator extends AMazeGenerator
     {
         int i = m.startPosition.getRowIndex();
         int j = m.startPosition.getColumnIndex();
-        while (i != m.goalPosition.getRowIndex() && j != m.goalPosition.getColumnIndex())
+        while (i != m.goalPosition.getRowIndex() || j != m.goalPosition.getColumnIndex())
         {
             Random ran = new Random();
             int index = ran.nextInt(2);
