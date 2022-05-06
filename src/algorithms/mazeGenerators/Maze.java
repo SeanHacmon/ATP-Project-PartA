@@ -6,13 +6,15 @@ import javax.swing.*;
 public class Maze
 {
     // constructor creates an empty maze[][] & initialize 0's
-    int[][] maze;
-    Position startPosition;
-    Position goalPosition;
-    int row;
-    int col;
+    public int[][] maze;
+    public Position startPosition;
+    public Position goalPosition;
+    public int row;
+    public int col;
+    public Position[][] PositionArray;
     public Maze(int row, int col)
     {
+        this.PositionArray = new Position[row][col];
         this.maze =new int[row][col];
         this.startPosition = new Position();
         this.goalPosition = new Position();
@@ -25,6 +27,14 @@ public class Maze
             for (int j = 0; j < col; j++)
             {
                 this.maze[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < col; j++)
+            {
+                PositionArray[i][j] = new Position(i,j);
             }
         }
         this.row = this.maze.length;
