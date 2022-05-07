@@ -1,4 +1,8 @@
 package algorithms.search;
 
-public class Solution {
+import java.util.ArrayList;
+
+public class Solution
+{
+    public ArrayList<AState> states;
 }
