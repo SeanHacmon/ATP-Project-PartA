@@ -7,10 +7,6 @@ public abstract class AState
     private AState cameFrom;
     private boolean visited;
 
-//    public AState()
-//    {
-//        this.state = "";
-//    }
 
     public int hashCode() {return super.hashCode();}
     public boolean equals(Object obj) {return super.equals(obj);}

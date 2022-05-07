@@ -8,13 +8,18 @@ public class DepthFirstSearch extends ASearchingAlgorithm
 {
     private Stack<AState> stack;
     private Solution DFS_sol;
+
     public Solution search(ISearchable s)
     {
-        AState state = s.getStartState();
-        stack.push(state);
+        AState start = s.getStartState();
+        AState goal = s.getGoalState();
+        stack.push(start);
+        start.setVisited(true);
         while (!stack.isEmpty())
         {
             AState myState = stack.pop();
+            if (!DFS_sol.states.contains(myState))
+                DFS_sol.states.add(myState);
             ArrayList<AState> neighbors = s.getAllSuccessors(myState);
             for (int i = 0; i < neighbors.size(); i++)
             {
