@@ -19,4 +19,8 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
         return openList.poll();
     }
 
+    public Solution solve(ISearchable s)
+    {
+        return null;
+    }
 }

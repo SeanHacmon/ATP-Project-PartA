@@ -15,34 +15,50 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
         this.queue = new LinkedList<>();
     }
     /// Generic BFS return a Solution.
-    public Solution search(ISearchable s)
+    public AState search(ISearchable s)
     {
         AState start = s.getStartState();
         AState goal = s.getGoalState();
-        ArrayList<AState> neighbors = s.getAllSuccessors(start);
         queue.add(start);
         start.setVisited(true);
-        while (!queue.isEmpty())
+        while (!queue.isEmpty() && !goal.isVisited())
         {
             AState visitedState = queue.remove();
-            if (!BFS_Sol.states.contains(visitedState))
-                BFS_Sol.states.add(visitedState);
+//            if (!BFS_Sol.states.contains(visitedState))
+//                BFS_Sol.states.add(visitedState);
+            ArrayList<AState> neighbors = s.getAllSuccessors(visitedState);
+            updateCost(visitedState, neighbors);
             for (int i = 0; i < neighbors.size(); i++)
             {
-                AState myState = neighbors.get(i);
-                if (!myState.isVisited() && myState.getState() != null)
+                AState curr = neighbors.get(i);
+                curr.setCameFrom(visitedState);
+                if (!curr.isVisited() && curr.getState() != null)
                 {
-                    queue.add(myState);
-                    myState.setVisited(true);
+                    queue.add(curr);
+                    curr.setVisited(true);
                 }
-                neighbors.remove(myState);
+
+                if (curr.equals(goal))
+                    return curr;
+
+                neighbors.remove(curr);
             }
         }
-        return BFS_Sol;
+
+        return null;
     }
 
     public int getNumberOfVisitedNodes() {return BFS_Sol.states.size();}
-
     public Queue<AState> getQueue() {return queue;}
     public void setQueue(Queue<AState> queue) {this.queue = queue;}
+
+    public void updateCost(AState s,ArrayList<AState> array)
+    {
+        for (int i = 0; i < array.size(); i++)
+        {
+            AState node = array.get(i);
+            node.setCost(1);
+        }
+    }
+
 }
