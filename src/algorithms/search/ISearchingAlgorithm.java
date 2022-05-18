@@ -5,5 +5,6 @@ public interface ISearchingAlgorithm
     public Solution solve(ISearchable s);
     public AState search(ISearchable s);
     public int getNumberOfVisitedNodes();
+    public String getName();
 
 }

@@ -7,7 +7,13 @@ import java.util.PriorityQueue;
 public class BestFirstSearch extends BreadthFirstSearch
 {
     private PriorityQueue<AState> pq;
-    private Solution BestSol;
+    protected String name;
+
+    public BestFirstSearch()
+    {
+        this.pq = new PriorityQueue<>();
+        this.name = "BestFirstSearch";
+    }
     {
         this.pq = new PriorityQueue<AState>(new Comparator<AState>() {
             public int compare(AState s1, AState s2) {
@@ -16,33 +22,37 @@ public class BestFirstSearch extends BreadthFirstSearch
             }
         });
     }
-    public Solution search(ISearchable s)
+    public AState search(ISearchable s)
     {
         AState start = s.getStartState();
+        AState goal = s.getGoalState();
         pq.add(start);
         start.setVisited(true);
         while (!pq.isEmpty())
         {
-            AState state = pq.remove();
-            if (!BestSol.states.contains(state))
-                BestSol.states.add(state);
-            ArrayList<AState> neighbors = s.getAllSuccessors(state);
+            AState curr = pq.remove();
+            ArrayList<AState> neighbors = s.getAllSuccessors(curr);
             for (int i = 0; i < neighbors.size(); i++)
             {
                 AState u = neighbors.get(i);
                 if (!u.isVisited())
                 {
                     u.setVisited(true);
-                    BestSol.states.add(u);
+                    visitedNodes++;
+                    pq.add(u);
                 }
+                if (curr.equals(goal))
+                    return curr;
+
                 neighbors.remove(u);
             }
         }
-        return BestSol;
+        return null;
     }
 
-    public int getNumberOfVisitedNodes() {return 0;}
+    public int getNumberOfVisitedNodes() {return visitedNodes;}
 
+    public String getName() {return this.name;}
 
 //    public static class functor implements Comparator<AState>
 //    {

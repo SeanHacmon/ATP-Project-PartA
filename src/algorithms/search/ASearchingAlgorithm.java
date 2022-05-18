@@ -5,7 +5,8 @@ import java.util.PriorityQueue;
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
 {
     protected PriorityQueue<AState> openList;
-    private int visitedNodes;
+    protected int visitedNodes;
+    protected String name;
 
     public ASearchingAlgorithm()
     {
@@ -21,6 +22,9 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
 
     public Solution solve(ISearchable s)
     {
-        return null;
+        Solution sol = new Solution();
+        AState state = this.search(s) ;
+        /// TODO
+        return sol;
     }
 }

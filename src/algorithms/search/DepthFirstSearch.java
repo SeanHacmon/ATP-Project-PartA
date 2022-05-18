@@ -7,9 +7,15 @@ import java.util.Stack;
 public class DepthFirstSearch extends ASearchingAlgorithm
 {
     private Stack<AState> stack;
-    private Solution DFS_sol;
+    protected String name;
 
-    public Solution search(ISearchable s)
+    public DepthFirstSearch()
+    {
+        this.name = "DepthFirstSearch";
+        this.stack = new Stack<>();
+    }
+
+    public AState search(ISearchable s)
     {
         AState start = s.getStartState();
         AState goal = s.getGoalState();
@@ -17,26 +23,30 @@ public class DepthFirstSearch extends ASearchingAlgorithm
         start.setVisited(true);
         while (!stack.isEmpty())
         {
-            AState myState = stack.pop();
-            if (!DFS_sol.states.contains(myState))
-                DFS_sol.states.add(myState);
-            ArrayList<AState> neighbors = s.getAllSuccessors(myState);
+            AState curr = stack.pop();
+            ArrayList<AState> neighbors = s.getAllSuccessors(curr);
             for (int i = 0; i < neighbors.size(); i++)
             {
                 AState n = neighbors.get(i);
                 if (!n.isVisited())
                 {
                     n.setVisited(true);
+                    visitedNodes++;
                     stack.push(n);
                 }
+
+                if (curr.equals(goal))
+                    return curr;
+
                 neighbors.remove(n);
             }
-            DFS_sol.states.add(myState);
         }
         return null;
     }
 
-    public int getNumberOfVisitedNodes() {return DFS_sol.states.size();}
+    public int getNumberOfVisitedNodes() {return this.visitedNodes;}
+
+    public String getName() {return this.name;}
 
 
 }

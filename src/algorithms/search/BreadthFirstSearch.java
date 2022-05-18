@@ -7,12 +7,11 @@ import java.util.Queue;
 public class BreadthFirstSearch extends ASearchingAlgorithm
 {
     private Queue<AState> queue;
-    private Solution BFS_Sol;
 
-    BreadthFirstSearch()
+    public BreadthFirstSearch()
     {
-        this.BFS_Sol = new Solution();
         this.queue = new LinkedList<>();
+        this.name = "BreadthFirstSearch";
     }
     /// Generic BFS return a Solution.
     public AState search(ISearchable s)
@@ -24,8 +23,6 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
         while (!queue.isEmpty() && !goal.isVisited())
         {
             AState visitedState = queue.remove();
-//            if (!BFS_Sol.states.contains(visitedState))
-//                BFS_Sol.states.add(visitedState);
             ArrayList<AState> neighbors = s.getAllSuccessors(visitedState);
             updateCost(visitedState, neighbors);
             for (int i = 0; i < neighbors.size(); i++)
@@ -36,6 +33,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
                 {
                     queue.add(curr);
                     curr.setVisited(true);
+                    this.visitedNodes++;
                 }
 
                 if (curr.equals(goal))
@@ -48,7 +46,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
         return null;
     }
 
-    public int getNumberOfVisitedNodes() {return BFS_Sol.states.size();}
+    public int getNumberOfVisitedNodes() {return this.visitedNodes;}
+
+    public String getName() {return this.name;}
+
     public Queue<AState> getQueue() {return queue;}
     public void setQueue(Queue<AState> queue) {this.queue = queue;}
 
