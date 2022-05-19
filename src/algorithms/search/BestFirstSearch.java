@@ -31,18 +31,19 @@ public class BestFirstSearch extends BreadthFirstSearch
         while (!pq.isEmpty())
         {
             AState curr = pq.remove();
-            ArrayList<AState> neighbors = s.getAllSuccessors(curr);
+            ArrayList<AState> neighbors = s.getAllPossibleStates(curr);
             for (int i = 0; i < neighbors.size(); i++)
             {
                 AState u = neighbors.get(i);
+                u.setCameFrom(curr);
                 if (!u.isVisited())
                 {
                     u.setVisited(true);
                     visitedNodes++;
                     pq.add(u);
                 }
-                if (curr.equals(goal))
-                    return curr;
+                if (u.equals(goal))
+                    return u;
 
                 neighbors.remove(u);
             }
@@ -50,7 +51,7 @@ public class BestFirstSearch extends BreadthFirstSearch
         return null;
     }
 
-    public int getNumberOfVisitedNodes() {return visitedNodes;}
+    public int getNumberOfNodesEvaluated() {return visitedNodes;}
 
     public String getName() {return this.name;}
 
