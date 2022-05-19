@@ -4,5 +4,12 @@ import java.util.ArrayList;
 
 public class Solution
 {
-    public ArrayList<AState> states;
+    protected ArrayList<AState> states;
+
+    public Solution()
+    {
+        this.states = new ArrayList<>();
+    }
+
+    public ArrayList<AState> getSolutionPath() {return this.states;}
 }

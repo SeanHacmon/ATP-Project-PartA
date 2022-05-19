@@ -23,8 +23,20 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
     public Solution solve(ISearchable s)
     {
         Solution sol = new Solution();
-        AState state = this.search(s) ;
-        /// TODO
+        AState state = this.search(s);
+
+        sol.states.add(state);
+        if (state.getCameFrom() == null)
+        {
+            return sol;
+        }
+        AState curr = state.getCameFrom();
+        while (curr != null)
+        {
+            sol.states.add(curr);
+            curr = state.getCameFrom();
+        }
+        /// TODO.
         return sol;
     }
 }

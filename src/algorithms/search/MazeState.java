@@ -11,6 +11,7 @@ public class MazeState extends AState
         super();
         visited = false;
         this.p=position;
+        this.setState("{" + position.getRowIndex() + ","+ p.getColumnIndex() + "}");
     }
 //    public MazeState(String s) {super(s);}
 }

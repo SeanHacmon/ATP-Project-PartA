@@ -23,30 +23,33 @@ public class DepthFirstSearch extends ASearchingAlgorithm
         start.setVisited(true);
         while (!stack.isEmpty())
         {
-            AState curr = stack.pop();
-            ArrayList<AState> neighbors = s.getAllSuccessors(curr);
+            AState node = stack.pop();
+            ArrayList<AState> neighbors = s.getAllPossibleStates(node);
             for (int i = 0; i < neighbors.size(); i++)
             {
-                AState n = neighbors.get(i);
-                if (!n.isVisited())
+                AState curr = neighbors.get(i);
+                curr.setCameFrom(node);
+                if (!curr.isVisited())
                 {
-                    n.setVisited(true);
+                    curr.setVisited(true);
                     visitedNodes++;
-                    stack.push(n);
+                    stack.push(curr);
                 }
 
                 if (curr.equals(goal))
                     return curr;
 
-                neighbors.remove(n);
+                neighbors.remove(curr);
             }
         }
         return null;
     }
 
-    public int getNumberOfVisitedNodes() {return this.visitedNodes;}
-
+    public int getNumberOfNodesEvaluated() {return this.visitedNodes;}
     public String getName() {return this.name;}
 
-
+    public Stack<AState> getStack() {return stack;}
+    public void setStack(Stack<AState> stack) {
+        this.stack = stack;
+    }
 }

@@ -20,16 +20,17 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
         AState goal = s.getGoalState();
         queue.add(start);
         start.setVisited(true);
+        this.visitedNodes++;
         while (!queue.isEmpty() && !goal.isVisited())
         {
             AState visitedState = queue.remove();
-            ArrayList<AState> neighbors = s.getAllSuccessors(visitedState);
+            ArrayList<AState> neighbors = s.getAllPossibleStates(visitedState);
             updateCost(visitedState, neighbors);
             for (int i = 0; i < neighbors.size(); i++)
             {
                 AState curr = neighbors.get(i);
                 curr.setCameFrom(visitedState);
-                if (!curr.isVisited() && curr.getState() != null)
+                if (!curr.isVisited())
                 {
                     queue.add(curr);
                     curr.setVisited(true);
@@ -46,8 +47,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
         return null;
     }
 
-    public int getNumberOfVisitedNodes() {return this.visitedNodes;}
-
+    public int getNumberOfNodesEvaluated() {return this.visitedNodes;}
     public String getName() {return this.name;}
 
     public Queue<AState> getQueue() {return queue;}
