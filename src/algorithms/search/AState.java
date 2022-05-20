@@ -5,8 +5,7 @@ public abstract class AState
     private String state;
     private double cost;
     private AState cameFrom;
-    private boolean visited;
-
+    protected boolean visited;
 
     public int hashCode() {return super.hashCode();}
     public boolean equals(Object obj) {return super.equals(obj);}
@@ -20,4 +19,5 @@ public abstract class AState
     public void setCameFrom(AState cameFrom) {this.cameFrom = cameFrom;}
     public boolean isVisited() {return visited;}
     public void setVisited(boolean visited) {this.visited = visited;}
+    public abstract void updateVisited();
 }

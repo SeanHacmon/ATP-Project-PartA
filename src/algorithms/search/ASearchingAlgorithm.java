@@ -34,7 +34,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
         while (curr != null)
         {
             sol.states.add(curr);
-            curr = state.getCameFrom();
+            curr = curr.getCameFrom();
         }
         /// TODO.
         return sol;

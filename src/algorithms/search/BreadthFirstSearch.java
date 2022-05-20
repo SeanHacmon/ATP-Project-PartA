@@ -1,16 +1,19 @@
 package algorithms.search;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm
 {
+    private HashMap<String, Boolean> marked;
     private Queue<AState> queue;
 
     public BreadthFirstSearch()
     {
         this.queue = new LinkedList<>();
+        this.marked = new HashMap<>();
         this.name = "BreadthFirstSearch";
     }
     /// Generic BFS return a Solution.
@@ -20,6 +23,8 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
         AState goal = s.getGoalState();
         queue.add(start);
         start.setVisited(true);
+        start.updateVisited();
+        marked.put(start.getState(), true);
         this.visitedNodes++;
         while (!queue.isEmpty() && !goal.isVisited())
         {
@@ -29,15 +34,16 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
             for (int i = 0; i < neighbors.size(); i++)
             {
                 AState curr = neighbors.get(i);
-                curr.setCameFrom(visitedState);
-                if (!curr.isVisited())
+                if (!marked.containsKey(curr.getState()))
                 {
+                    marked.put(curr.getState(), true);
+                    curr.setCameFrom(visitedState);
                     queue.add(curr);
                     curr.setVisited(true);
                     this.visitedNodes++;
+                    curr.updateVisited();
                 }
-
-                if (curr.equals(goal))
+                if (curr.getState().compareTo(goal.getState())==0)
                     return curr;
 
                 neighbors.remove(curr);
@@ -53,7 +59,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
     public Queue<AState> getQueue() {return queue;}
     public void setQueue(Queue<AState> queue) {this.queue = queue;}
 
-    public void updateCost(AState s,ArrayList<AState> array)
+    public HashMap<String, Boolean> getMarked() {return marked;}
+    public void setMarked(HashMap<String, Boolean> marked) {this.marked = marked;}
+
+    public void updateCost(AState s, ArrayList<AState> array)
     {
         for (int i = 0; i < array.size(); i++)
         {
@@ -63,3 +72,11 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
     }
 
 }
+//            for (int i = 0; i < neighbors.size(); i++)
+//            {
+//                AState n = neighbors.get(i);
+//                if(n.isVisited())
+//                {
+//                    neighbors.remove(n);
+//                }
+//            }

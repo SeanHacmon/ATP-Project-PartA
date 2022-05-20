@@ -1,6 +1,7 @@
 package algorithms.search;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -8,11 +9,13 @@ public class DepthFirstSearch extends ASearchingAlgorithm
 {
     private Stack<AState> stack;
     protected String name;
+    private HashMap<String, Boolean> marked;
 
     public DepthFirstSearch()
     {
         this.name = "DepthFirstSearch";
         this.stack = new Stack<>();
+        this.marked = new HashMap<>();
     }
 
     public AState search(ISearchable s)
@@ -46,10 +49,15 @@ public class DepthFirstSearch extends ASearchingAlgorithm
     }
 
     public int getNumberOfNodesEvaluated() {return this.visitedNodes;}
+
     public String getName() {return this.name;}
+    public void setName(String name) {this.name = name;}
 
     public Stack<AState> getStack() {return stack;}
     public void setStack(Stack<AState> stack) {
         this.stack = stack;
     }
+
+    public HashMap<String, Boolean> getMarked() {return marked;}
+    public void setMarked(HashMap<String, Boolean> marked) {this.marked = marked;}
 }

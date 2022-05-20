@@ -5,13 +5,26 @@ import algorithms.mazeGenerators.Position;
 public class MazeState extends AState
 {
     protected Position p;
-    boolean visited;
+//    boolean visited;
     public MazeState(Position position)
     {
         super();
-        visited = false;
         this.p=position;
+        p.setVisited(this.isVisited());
         this.setState("{" + position.getRowIndex() + ","+ p.getColumnIndex() + "}");
     }
-//    public MazeState(String s) {super(s);}
+    public void updateVisited()
+    {
+        if (this.isVisited())
+        {
+            p.setVisited(true);
+        }
+    }
+
+    public String toString() {
+        return "MazeState{" +
+                getState() +
+                '}';
+    }
+    //    public MazeState(String s) {super(s);}
 }
