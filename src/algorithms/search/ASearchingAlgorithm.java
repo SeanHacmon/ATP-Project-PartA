@@ -26,6 +26,8 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
         AState state = this.search(s);
 
         sol.states.add(state);
+        if (state == null)
+            return sol;
         if (state.getCameFrom() == null)
         {
             return sol;
@@ -36,7 +38,10 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
             sol.states.add(curr);
             curr = curr.getCameFrom();
         }
-        /// TODO.
+        for (int i = sol.states.size()-1; i >= 0; i--)
+        {
+            sol.reversed.add(sol.states.get(i));
+        }
         return sol;
     }
 }

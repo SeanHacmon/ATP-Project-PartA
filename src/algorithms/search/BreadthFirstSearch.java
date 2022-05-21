@@ -49,7 +49,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
                 neighbors.remove(curr);
             }
         }
-
+        /// TODO to take care of the case we received a null state, should use the hashmap.
         return null;
     }
 

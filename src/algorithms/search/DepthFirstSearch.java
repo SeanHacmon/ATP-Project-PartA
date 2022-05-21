@@ -8,7 +8,6 @@ import java.util.Stack;
 public class DepthFirstSearch extends ASearchingAlgorithm
 {
     private Stack<AState> stack;
-    protected String name;
     private HashMap<String, Boolean> marked;
 
     public DepthFirstSearch()
@@ -24,22 +23,27 @@ public class DepthFirstSearch extends ASearchingAlgorithm
         AState goal = s.getGoalState();
         stack.push(start);
         start.setVisited(true);
-        while (!stack.isEmpty())
+        start.updateVisited();
+        marked.put(start.getState(), true);
+        this.visitedNodes++;
+        while (!stack.isEmpty() && !goal.isVisited())
         {
             AState node = stack.pop();
             ArrayList<AState> neighbors = s.getAllPossibleStates(node);
             for (int i = 0; i < neighbors.size(); i++)
             {
                 AState curr = neighbors.get(i);
-                curr.setCameFrom(node);
-                if (!curr.isVisited())
+                if (!marked.containsKey(curr.getState()))
                 {
+                    marked.put(curr.getState(), true);
+                    curr.setCameFrom(node);
                     curr.setVisited(true);
                     visitedNodes++;
                     stack.push(curr);
+                    curr.updateVisited();
                 }
 
-                if (curr.equals(goal))
+                if (curr.getState().compareTo(goal.getState())==0)
                     return curr;
 
                 neighbors.remove(curr);
@@ -60,4 +64,13 @@ public class DepthFirstSearch extends ASearchingAlgorithm
 
     public HashMap<String, Boolean> getMarked() {return marked;}
     public void setMarked(HashMap<String, Boolean> marked) {this.marked = marked;}
+
+    public void updateCost(AState s, ArrayList<AState> array)
+    {
+        for (int i = 0; i < array.size(); i++)
+        {
+            AState node = array.get(i);
+            node.setCost(1);
+        }
+    }
 }
