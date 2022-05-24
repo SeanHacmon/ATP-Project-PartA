@@ -35,7 +35,9 @@ public class BestFirstSearch extends BreadthFirstSearch {
         while (!pq.isEmpty()) {
             AState u = pq.remove();
             ArrayList<AState> neighbors = s.getAllPossibleStates(u);
-            for (int i = 0; i < neighbors.size(); i++) {
+            int i = 0;
+            while (!neighbors.isEmpty())
+            {
                 AState curr = neighbors.get(i);
                 if (!marked.containsKey(curr.getState())) {
                     marked.put(curr.getState(), true);

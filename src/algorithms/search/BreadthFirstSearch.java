@@ -1,9 +1,6 @@
 package algorithms.search;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm
 {
@@ -31,7 +28,8 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
             AState visitedState = queue.remove();
             ArrayList<AState> neighbors = s.getAllPossibleStates(visitedState);
             updateCost(visitedState, neighbors);
-            for (int i = 0; i < neighbors.size(); i++)
+            int i = 0;
+            while (!neighbors.isEmpty())
             {
                 AState curr = neighbors.get(i);
                 if (!marked.containsKey(curr.getState()))

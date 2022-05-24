@@ -10,10 +10,12 @@ import java.util.Queue;
 public class SearchableMaze implements ISearchable
 {
     private Maze maze;
-
+//    private Position[][] posArr;
     public SearchableMaze(Maze m)
     {
+//        this.posArr = m.PositionArray;
         this.maze = m;
+//        updatePositionArr(m);
     }
 
     public AState getStartState() {return new MazeState(maze.startPosition);}
@@ -106,4 +108,22 @@ public class SearchableMaze implements ISearchable
     {
         return (0 <= row && row <= m.goalPosition.getRowIndex() && 0 <= col && col <= m.goalPosition.getColumnIndex());
     }
+
+//    public Position[][] getPosArr() {return posArr;}
+//    public void setPosArr(Position[][] posArr) {this.posArr = posArr;}
+
+//    public void updatePositionArr(Maze m)
+//    {
+//        for (int i = 0; i < m.row; i++)
+//        {
+//            for (int j = 0; j < m.col; j++)
+//            {
+//                if (m.maze[i][j] == 0)
+//                {
+//                    this.posArr[i][j].setVisited(true);
+//                }
+//
+//            }
+//        }
+//    }
 }

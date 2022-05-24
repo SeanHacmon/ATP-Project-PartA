@@ -30,7 +30,8 @@ public class DepthFirstSearch extends ASearchingAlgorithm
         {
             AState node = stack.pop();
             ArrayList<AState> neighbors = s.getAllPossibleStates(node);
-            for (int i = 0; i < neighbors.size(); i++)
+            int i = 0;
+            while (!neighbors.isEmpty())
             {
                 AState curr = neighbors.get(i);
                 if (!marked.containsKey(curr.getState()))

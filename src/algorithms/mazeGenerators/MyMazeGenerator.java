@@ -217,20 +217,15 @@ public class MyMazeGenerator extends AMazeGenerator
         {
             Position p = new Position(l, 0);
             this.onlyWalls.setStartPosition(p);
-//            this.onlyWalls.
-//            this.onlyWalls.startPosition.setRowIndex(l);
-//            this.onlyWalls.startPosition.setColumnIndex(0);
-//            this.onlyWalls.PositionArray[l][0].setVisited(true);
+            this.onlyWalls.startPosition.setVisited(true);
         }
 
         else
         {
             Position p = new Position(l, 0);
             this.onlyWalls.setStartPosition(p);
+            this.onlyWalls.startPosition.setVisited(true);
         }
-//            this.onlyWalls.startPosition.setRowIndex(0);
-//            this.onlyWalls.startPosition.setColumnIndex(l);
-//            this.onlyWalls.PositionArray[0][l].setVisited(true);
     }
 
 

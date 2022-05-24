@@ -5,7 +5,6 @@ import algorithms.mazeGenerators.Position;
 public class MazeState extends AState
 {
     protected Position p;
-//    boolean visited;
     public MazeState(Position position)
     {
         super();
@@ -26,5 +25,9 @@ public class MazeState extends AState
                 getState() +
                 '}';
     }
-    //    public MazeState(String s) {super(s);}
+    public boolean isVisited()
+    {
+        return this.visited;
+    }
+    public void setVisited(boolean visited){this.visited = visited;}
 }
