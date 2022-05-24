@@ -6,6 +6,7 @@ public abstract class AState
     private double cost;
     private AState cameFrom;
     protected boolean visited;
+    protected boolean cross;
 
     public int hashCode() {return super.hashCode();}
     public boolean equals(Object obj) {return super.equals(obj);}
@@ -20,4 +21,7 @@ public abstract class AState
     public abstract boolean isVisited();
     public abstract void setVisited(boolean visited);
     public abstract void updateVisited();
+
+//    public boolean isCross() {return cross;}
+//    public void setCross(boolean cross) {this.cross = cross;}
 }

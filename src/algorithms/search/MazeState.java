@@ -11,6 +11,7 @@ public class MazeState extends AState
         this.p=position;
         p.setVisited(this.isVisited());
         this.setState("{" + position.getRowIndex() + ","+ p.getColumnIndex() + "}");
+        cross = false;
     }
     public void updateVisited()
     {
@@ -25,6 +26,8 @@ public class MazeState extends AState
                 getState() +
                 '}';
     }
+
+
     public boolean isVisited()
     {
         return this.visited;

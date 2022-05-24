@@ -15,14 +15,6 @@ public class BestFirstSearch extends BreadthFirstSearch {
         this.marked = new HashMap<>();
     }
 
-//    {
-//        this.pq = new PriorityQueue<AState>(new Comparator<AState>() {
-//            public int compare(AState s1, AState s2) {
-//                if (s1.getCost() > s2.getCost()) return 1;
-//                return 0;
-//            }
-//        });
-//    }
 
     public AState search(ISearchable s) {
         AState start = s.getStartState();
@@ -57,9 +49,13 @@ public class BestFirstSearch extends BreadthFirstSearch {
     }
 
     public void updateCost(AState s, ArrayList<AState> array) {
-        for (int i = 0; i < array.size(); i++) {
+        for (int i = 0; i < array.size(); i++)
+        {
             AState node = array.get(i);
-            node.setCost(1);
+            if (node.cross)
+                node.setCost(1.5);
+            else
+                node.setCost(1);
         }
     }
 

@@ -68,6 +68,7 @@ public class SearchableMaze implements ISearchable
             if (maze.maze[row+1][col-1] == 0)
             {
                 MazeState m = new MazeState(p5);
+                m.cross = true;
                 neighbors.add(m);
             }
         }
@@ -77,6 +78,7 @@ public class SearchableMaze implements ISearchable
             if (maze.maze[row+1][col+1] == 0)
             {
                 MazeState m = new MazeState(p6);
+                m.cross = true;
                 neighbors.add(m);
             }
         }
@@ -86,6 +88,7 @@ public class SearchableMaze implements ISearchable
             if (maze.maze[row-1][col+1] == 0)
             {
                 MazeState m = new MazeState(p7);
+                m.cross = true;
                 neighbors.add(m);
             }
         }
@@ -95,6 +98,7 @@ public class SearchableMaze implements ISearchable
             if (maze.maze[row-1][col-1] == 0)
             {
                 MazeState m = new MazeState(p8);
+                m.cross = true;
                 neighbors.add(m);
             }
         }
@@ -106,21 +110,5 @@ public class SearchableMaze implements ISearchable
         return (0 <= row && row <= m.goalPosition.getRowIndex() && 0 <= col && col <= m.goalPosition.getColumnIndex());
     }
 
-//    public Position[][] getPosArr() {return posArr;}
-//    public void setPosArr(Position[][] posArr) {this.posArr = posArr;}
 
-//    public void updatePositionArr(Maze m)
-//    {
-//        for (int i = 0; i < m.row; i++)
-//        {
-//            for (int j = 0; j < m.col; j++)
-//            {
-//                if (m.maze[i][j] == 0)
-//                {
-//                    this.posArr[i][j].setVisited(true);
-//                }
-//
-//            }
-//        }
-//    }
 }
