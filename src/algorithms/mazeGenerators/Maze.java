@@ -67,14 +67,12 @@ public class Maze
         }
     }
 
-
-
-
-
-
-
-
-
+    public void setStartPosition(Position startPosition)
+    {
+        this.startPosition = startPosition;
+        this.startPosition.setRowIndex(startPosition.getRowIndex());
+        this.startPosition.setColumnIndex(startPosition.getColumnIndex());
+    }
 
     //******************************************************************************************************//
     // NOT PART OF THE PROJECT, FUNCTIONS TO DISPLAY THE MAZE OUTSIDE OF THE TERMINAL.

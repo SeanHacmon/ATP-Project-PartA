@@ -9,13 +9,11 @@ public class MyMazeGenerator extends AMazeGenerator
 {
     private Maze onlyWalls;
     private List<Position> wallSet;
-//    private Position[][] PositionArray;
 
     public MyMazeGenerator()
     {
         this.wallSet = new ArrayList<>() {};
         this.onlyWalls = null;
-//        this.onlyWalls.maze  = null;
     }
 
     public Maze generate(int row, int col)
@@ -23,10 +21,11 @@ public class MyMazeGenerator extends AMazeGenerator
 
         // creating our maze full of walls.
         onlyWalls = FullOfWalls(row, col);
+        setRandomStart(row, col);
         Position pos = onlyWalls.startPosition;
-        this.onlyWalls.PositionArray[0][0].setVisited(true);
+        this.onlyWalls.PositionArray[pos.getRowIndex()][pos.getColumnIndex()].setVisited(true);
         WallTooPassage(pos, onlyWalls);
-        AddNewWalls(0, 0);
+        AddNewWalls(onlyWalls.startPosition.getRowIndex(), onlyWalls.startPosition.getColumnIndex());
 
         // the Prim algorithm
         while (!wallSet.isEmpty())
@@ -208,6 +207,26 @@ public class MyMazeGenerator extends AMazeGenerator
         return true;
     }
 
+    public void setRandomStart(int row, int col)
+    {
+        Random r1 = new Random();
+        Random r3 = new Random();
+        int l = r1.nextInt(Math.min(row,col));
+        int choose = r3.nextInt(2); // 0 = left, 1 = right, 2 = up, 3 = down.
+        if (choose == 0)
+        {
+            Position p = new Position(l, 0);
+            this.onlyWalls.setStartPosition(p);
+            this.onlyWalls.startPosition.setVisited(true);
+        }
+
+        else
+        {
+            Position p = new Position(l, 0);
+            this.onlyWalls.setStartPosition(p);
+            this.onlyWalls.startPosition.setVisited(true);
+        }
+    }
 
 
 }

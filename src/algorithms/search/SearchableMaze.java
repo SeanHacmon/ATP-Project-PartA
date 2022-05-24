@@ -10,10 +10,12 @@ import java.util.Queue;
 public class SearchableMaze implements ISearchable
 {
     private Maze maze;
-
+//    private Position[][] posArr;
     public SearchableMaze(Maze m)
     {
+//        this.posArr = m.PositionArray;
         this.maze = m;
+//        updatePositionArr(m);
     }
 
     public AState getStartState() {return new MazeState(maze.startPosition);}
@@ -30,50 +32,74 @@ public class SearchableMaze implements ISearchable
         if (inBounds(row + 1, col, maze))
         {
             Position p1 = maze.PositionArray[row + 1][col];
-            MazeState m1 = new MazeState(p1);
-            neighbors.add(m1);
+            if (maze.maze[row+1][col] == 0)
+            {
+                MazeState m = new MazeState(p1);
+                neighbors.add(m);
+            }
         }
         if (inBounds(row, col + 1, maze))
         {
             Position p2 = maze.PositionArray[row][col + 1];
-            MazeState m2 = new MazeState(p2);
-            neighbors.add(m2);
+            if (maze.maze[row][col+1] == 0)
+            {
+                MazeState m = new MazeState(p2);
+                neighbors.add(m);
+            }
         }
         if (inBounds(row - 1, col, maze))
         {
             Position p3 = maze.PositionArray[row - 1][col];
-            MazeState m3 = new MazeState(p3);
-            neighbors.add(m3);
+            if (maze.maze[row-1][col] == 0)
+            {
+                MazeState m = new MazeState(p3);
+                neighbors.add(m);
+            }
         }
         if (inBounds(row, col - 1, maze))
         {
             Position p4 = maze.PositionArray[row][col-1];
-            MazeState m4 = new MazeState(p4);
-            neighbors.add(m4);
+            if (maze.maze[row][col-1] == 0)
+            {
+                MazeState m = new MazeState(p4);
+                neighbors.add(m);
+            }
         }
         if (inBounds(row + 1, col - 1, maze))
         {
             Position p5 = maze.PositionArray[row+1][col-1];
-            MazeState m5 = new MazeState(p5);
-            neighbors.add(m5);
+            if (maze.maze[row+1][col-1] == 0)
+            {
+                MazeState m = new MazeState(p5);
+                neighbors.add(m);
+            }
         }
         if (inBounds(row + 1, col + 1, maze))
         {
             Position p6 = maze.PositionArray[row+1][col+1];
-            MazeState m6 = new MazeState(p6);
-            neighbors.add(m6);
+            if (maze.maze[row+1][col+1] == 0)
+            {
+                MazeState m = new MazeState(p6);
+                neighbors.add(m);
+            }
         }
         if (inBounds(row - 1, col + 1, maze))
         {
             Position p7 = maze.PositionArray[row-1][col+1];
-            MazeState m7 = new MazeState(p7);
-            neighbors.add(m7);
+            if (maze.maze[row-1][col+1] == 0)
+            {
+                MazeState m = new MazeState(p7);
+                neighbors.add(m);
+            }
         }
         if (inBounds(row - 1, col - 1, maze))
         {
             Position p8 = maze.PositionArray[row-1][col-1];
-            MazeState m8 = new MazeState(p8);
-            neighbors.add(m8);
+            if (maze.maze[row-1][col-1] == 0)
+            {
+                MazeState m = new MazeState(p8);
+                neighbors.add(m);
+            }
         }
         return neighbors;
     }
@@ -82,4 +108,22 @@ public class SearchableMaze implements ISearchable
     {
         return (0 <= row && row <= m.goalPosition.getRowIndex() && 0 <= col && col <= m.goalPosition.getColumnIndex());
     }
+
+//    public Position[][] getPosArr() {return posArr;}
+//    public void setPosArr(Position[][] posArr) {this.posArr = posArr;}
+
+//    public void updatePositionArr(Maze m)
+//    {
+//        for (int i = 0; i < m.row; i++)
+//        {
+//            for (int j = 0; j < m.col; j++)
+//            {
+//                if (m.maze[i][j] == 0)
+//                {
+//                    this.posArr[i][j].setVisited(true);
+//                }
+//
+//            }
+//        }
+//    }
 }
