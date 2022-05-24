@@ -1,6 +1,7 @@
 package algorithms.mazeGenerators;
 
 import java.awt.*;
+import java.io.Console;
 import javax.swing.*;
 
 public class Maze
@@ -14,6 +15,12 @@ public class Maze
     public Position[][] PositionArray;
     public Maze(int row, int col)
     {
+        try {
+            if (row == 0 && col == 0)
+                throw new Exception("No Maze");
+        }
+        catch (Exception e) {e.getMessage();}
+
         this.PositionArray = new Position[row][col];
         this.maze =new int[row][col];
         this.startPosition = new Position();
