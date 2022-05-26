@@ -7,6 +7,7 @@ public abstract class AState
     private AState cameFrom;
     protected boolean visited;
     protected boolean cross;
+    protected int distance;
 
     public int hashCode() {return super.hashCode();}
     public boolean equals(Object obj) {return super.equals(obj);}

@@ -3,6 +3,7 @@ package algorithms.search;
 import algorithms.mazeGenerators.EmptyMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.Position;
 import org.junit.jupiter.api.Test;
 
 import java.io.Console;
@@ -15,7 +16,6 @@ class BestFirstSearchTest
     // Constructor for best search & bfs & dfs algorithm.
     BestFirstSearch best = new BestFirstSearch();
     BreadthFirstSearch bfs = new BreadthFirstSearch();
-    DepthFirstSearch dfs = new DepthFirstSearch();
 
     MyMazeGenerator mmg = new MyMazeGenerator();
     EmptyMazeGenerator emg = new EmptyMazeGenerator();
@@ -78,22 +78,29 @@ class BestFirstSearchTest
         assertEquals(curr3.getState(), "{2,2}");
     }
 
-//    @Test // Test4
-//    public void countEvaluated() throws Exception
-//    {
-//        Maze m = mmg.generate(100, 100);
-//        SearchableMaze maze100x100 = new SearchableMaze(m);
-//
-//        Solution s1 = bfs.solve(maze100x100);
-//        int bfsNodes = bfs.getNumberOfNodesEvaluated();
-//
-//        Solution s2 = dfs.solve(maze100x100);
-//        int dfsNodes = dfs.getNumberOfNodesEvaluated();
-//
-//        Solution s3 = best.solve(maze100x100);
-//        int bestNodes = best.getNumberOfNodesEvaluated();
-//
-//        assertTrue(bestNodes <= bfsNodes && bestNodes <= dfsNodes);
-//    }
+    @Test // Test4
+    public void countEvaluated() throws Exception
+    {
+        Maze m = mmg.generate(100, 100);
+        SearchableMaze maze100x100 = new SearchableMaze(m);
+
+        Solution s1 = bfs.solve(maze100x100);
+
+        Solution s2 = best.solve(maze100x100);
+
+        assertFalse(s1.states.size() > s2.states.size());
+    }
+
+    @Test // Test5
+    public void getBestPath() throws Exception
+    {
+        Maze m = emg.generate(10,10);
+        Position p = new Position(0, 9);
+        m.setStartPosition(p);
+        SearchableMaze maze10x10 = new SearchableMaze(m);
+        Solution s = best.solve(maze10x10);
+        ArrayList<AState> path = s.getSolutionPath();
+        assertEquals(path.size(), 10);
+    }
 
 }
