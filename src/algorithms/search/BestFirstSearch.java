@@ -15,14 +15,6 @@ public class BestFirstSearch extends BreadthFirstSearch {
         this.marked = new HashMap<>();
     }
 
-//    {
-//        this.pq = new PriorityQueue<AState>(new Comparator<AState>() {
-//            public int compare(AState s1, AState s2) {
-//                if (s1.getCost() > s2.getCost()) return 1;
-//                return 0;
-//            }
-//        });
-//    }
 
     public AState search(ISearchable s) {
         AState start = s.getStartState();
@@ -35,13 +27,15 @@ public class BestFirstSearch extends BreadthFirstSearch {
         while (!pq.isEmpty()) {
             AState u = pq.remove();
             ArrayList<AState> neighbors = s.getAllPossibleStates(u);
+            updateCameFrom(neighbors, u);
+            updateCost(neighbors);
+            updateDistance(neighbors);
             int i = 0;
             while (!neighbors.isEmpty())
             {
                 AState curr = neighbors.get(i);
                 if (!marked.containsKey(curr.getState())) {
                     marked.put(curr.getState(), true);
-                    curr.setCameFrom(u);
                     pq.add(curr);
                     curr.setVisited(true);
                     visitedNodes++;
@@ -56,23 +50,79 @@ public class BestFirstSearch extends BreadthFirstSearch {
         return null;
     }
 
-    public void updateCost(AState s, ArrayList<AState> array) {
-        for (int i = 0; i < array.size(); i++) {
+    public PriorityQueue<AState> getPq() {return pq;}
+    public void setPq(PriorityQueue<AState> pq) {this.pq = pq;}
+    public HashMap<String, Boolean> getMarked() {return marked;}
+    public void setMarked(HashMap<String, Boolean> marked) {this.marked = marked;}
+
+    public void updateCameFrom(ArrayList<AState> array, AState s)
+    {
+        int i = 0;
+        while (i < array.size())
+        {
             AState node = array.get(i);
-            node.setCost(1);
+            node.setCameFrom(s);
+            i++;
+        }
+    }
+
+    public void updateCost(ArrayList<AState> array)
+    {
+        int i = 0;
+        while (i < array.size())
+        {
+            AState node = array.get(i);
+            if (node.getCameFrom() != null)
+            {
+                if (node.cross)
+                    node.setCost(1.5 + node.getCameFrom().getCost());
+                else
+                    node.setCost(1 + node.getCameFrom().getCost());
+            }
+            else
+            {
+                if (node.cross)
+                    node.setCost(1.5);
+                else
+                    node.setCost(1);
+            }
+            i++;
+        }
+    }
+
+    public void updateDistance(ArrayList<AState> array)
+    {
+        int i = 0;
+        while (i < array.size())
+        {
+            AState curr = array.get(i);
+            if (curr.getCameFrom() == null)
+                curr.distance = 0;
+            else
+                curr.distance = curr.getCameFrom().distance + 1;
+            i++;
         }
     }
 
     public int getNumberOfNodesEvaluated() {return visitedNodes;}
 
     public String getName() {return this.name;}
-}
 
-class theComparator implements Comparator<AState>
-{
-    public int compare(AState s1, AState s2)
+    static class theComparator implements Comparator<AState>
     {
-        if (s1.getCost() > s2.getCost()) return 1;
-        return 0;
+        public int compare(AState s1, AState s2)
+        {
+            if (s1.distance > s2.distance)
+                return 1;
+            if (s1.distance == s2.distance)
+            {
+                if (s1.getCost() > s2.getCost())
+                    return 1;
+                if (s1.getCost() == s2.getCost())
+                    return 0;
+            }
+            return -1;
+        }
     }
+
 }

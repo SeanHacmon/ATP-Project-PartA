@@ -70,11 +70,3 @@ public class BreadthFirstSearch extends ASearchingAlgorithm
     }
 
 }
-//            for (int i = 0; i < neighbors.size(); i++)
-//            {
-//                AState n = neighbors.get(i);
-//                if(n.isVisited())
-//                {
-//                    neighbors.remove(n);
-//                }
-//            }
